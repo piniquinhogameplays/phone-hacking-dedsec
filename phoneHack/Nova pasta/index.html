@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Executar BAT</title>
+</head>
+<body>
+    <h1>Executar Arquivo BAT</h1>
+    <button onclick="executarBAT()">Executar</button>
+
+    <script>
+        function executarBAT() {
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                shell.Run("DEDSEC.bat", 0, true);
+            } catch (e) {
+                alert("ActiveX não está habilitado ou não é suportado.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Controle via Python</title>
+    <style>
+        /* Estilo Geral */
+body {
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    text-align: center;
+    overflow-x: hidden;
+    animation: glitchBackground 6s infinite alternate;
+}
+
+/* Animação de fundo estilo glitch */
+@keyframes glitchBackground {
+    0%, 100% {
+        background-color: #0d0d0d;
+    }
+    50% {
+        background-color: #002b36;
+    }
+}
+
+/* Cabeçalho estilizado */
+h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 15px #ff00ff, 0 0 20px #ff00ff;
+    margin-top: 30px;
+}
+
+/* Botões */
+button {
+    background: linear-gradient(90deg, #00ffcc, #ff00ff);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #ff00ff;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00ffcc, 0 0 30px #ff00ff;
+}
+
+/* Links */
+a {
+    color: #00ffcc;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #ff00ff;
+}
+
+/* Fundo animado */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 204, 0.1),
+        rgba(0, 255, 204, 0.1) 1px,
+        rgba(0, 0, 0, 0.1) 2px
+    );
+    z-index: -1;
+    mix-blend-mode: overlay;
+    animation: flicker 1s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Estilo Glitch nos textos */
+.glitch {
+    font-size: 2rem;
+    position: relative;
+    display: inline-block;
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #ff00ff;
+    animation: glitchEffect 2s infinite;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    clip: rect(0, 0, 0, 0);
+}
+
+.glitch::before {
+    color: #ff00ff;
+    z-index: -1;
+    animation: glitchBefore 2s infinite;
+}
+
+.glitch::after {
+    color: #00ffcc;
+    z-index: -1;
+    animation: glitchAfter 2s infinite;
+}
+
+@keyframes glitchEffect {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(2px, -2px);
+    }
+    50% {
+        transform: translate(-2px, 2px);
+    }
+    75% {
+        transform: translate(2px, 2px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes glitchBefore {
+    0% {
+        clip: rect(10px, 200px, 20px, 0);
+    }
+    50% {
+        clip: rect(0px, 200px, 40px, 0);
+        transform: translate(-2px, -2px);
+    }
+    100% {
+        clip: rect(30px, 200px, 20px, 0);
+    }
+}
+
+@keyframes glitchAfter {
+    0% {
+        clip: rect(50px, 200px, 100px, 0);
+    }
+    50% {
+        clip: rect(10px, 200px, 90px, 0);
+        transform: translate(2px, 2px);
+    }
+    100% {
+        clip: rect(40px, 200px, 80px, 0);
+    }
+}
+
+    </style>
+    <script>
+        function executarAcao(acao) {
+            fetch('/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=${acao}`
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1 class="glitch" data-text="DEDSEC">DEDSEC</h1>
+    <button onclick="executarAcao('abrir_arquivo')">Abrir Bloco de Notas</button>
+    <button onclick="executarAcao('rodar_bat')">Executar Arquivo BAT</button>
+</body>
+</html>
